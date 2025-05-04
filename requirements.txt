@@ -1,0 +1,6 @@
+python-dotenv
+requests
+twitchio
+streamlink
+tqdm
+yt-dlp

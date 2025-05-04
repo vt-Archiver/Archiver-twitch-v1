@@ -1,0 +1,64 @@
+# Obtaining a New Twitch OAuth Token with Required Scopes
+
+- `user:read:email`
+- `user:read:broadcast`
+- `channel:read:subscriptions`
+- `chat:read`
+- `chat:edit`
+
+## Step 1: Prepare Your Client Credentials
+
+Before you begin, ensure you have:
+- Your **Client ID**
+- Your **Client Secret**
+
+## Step 2: Construct the Authorization URL
+
+Use the following URL to request an access token with the necessary scopes. Replace `YOUR_CLIENT_ID` with your actual Client ID and ensure the `redirect_uri` is set to a URL you control (in this guide we use `http://localhost`):
+
+```
+https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=YOUR_CLIENT_ID&redirect_uri=http://localhost&scope=user:read:email+user:read:broadcast+channel:read:subscriptions+chat:read+chat:edit+user_subscriptions
+```
+
+scopes:
+user:read:email
+user:read:broadcast
+channel:read:subscriptions
+chat:read
+chat:edit
+user_subscriptions
+
+
+## Step 3: Authorize the Application
+
+1. Open the constructed URL in your web browser.
+2. You will be prompted by Twitch to **Log In** (if not already logged in) and then to **Authorize** the application.
+3. Once you authorize, Twitch will redirect you to the `redirect_uri` (e.g., `http://localhost`).
+
+## Step 4: Extract the Access Token
+
+After authorization, your browser will be redirected to a URL that looks similar to this:
+
+```
+http://localhost/#access_token=NEW_ACCESS_TOKEN&scope=user:read:email+user:read:broadcast+channel:read:subscriptions+chat:read+chat:edit&token_type=bearer&expires_in=3600
+```
+
+- **Copy the access token** (the value after `access_token=`) from the URL.
+
+## Step 5: Update Your `.env` File
+
+Open your `.env` file in your project directory and update the `ACCESS_TOKEN` value:
+
+```ini
+CLIENT_ID=your_actual_client_id
+CLIENT_SECRET=your_actual_client_secret
+ACCESS_TOKEN=NEW_ACCESS_TOKEN
+```
+
+## Step 6: Test Your Setup
+
+Run the `download_vods.py` script again:
+
+```bash
+python download_vods.py
+```
